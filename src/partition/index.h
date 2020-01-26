@@ -2,8 +2,7 @@
 
 // Reference type describing positions/offsets in the simfs_volume
 // Acts like a fake pointer
-#define SIMFS_INDEX_TYPE unsigned short
-#define SIMFS_SIZE_TYPE unsigned short
+typedef unsigned short SIMFS_INDEX_TYPE;
 
 // An always Invalid index
 // Acts like NULL for SIMFS_INDEX_TYPE
