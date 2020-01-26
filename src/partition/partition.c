@@ -1,6 +1,8 @@
 #include "partition.h"
-#include <stddef.h>
+#include <stdint.h>
+#include "defines.h"
 
+typedef uint8_t simfs_partition_block[SIMFS_BLOCK_SIZE];
 static simfs_partition_block simfs_partition[SIMFS_NUMBER_OF_BLOCKS];
 
 void simfs_partition_create(char *filename)
@@ -18,13 +20,13 @@ void simfs_partition_release()
     // TODO
 }
 
-simfs_partition_block *simfs_partition_getBlock(SIMFS_INDEX_TYPE index)
+void *simfs_partition_getBlock(SIMFS_INDEX_TYPE index)
 {
     // TODO
     return NULL;
 }
 
-void simfs_partition_setBlock(simfs_partition_block *block, SIMFS_INDEX_TYPE index)
+void simfs_partition_setBlock(void *block, SIMFS_INDEX_TYPE index)
 {
     // TODO
 }
