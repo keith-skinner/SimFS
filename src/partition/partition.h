@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include "index.h"
 
 /**
@@ -7,12 +8,14 @@
  * @param filename if filename is NULL, creates a new partition. If the
  * filename is invalid, writes an error to stderr and calls exit. If the
  * filename is valid, it reads the contents of the file into the partition.
+ * @return if the partition used the file to be created returns true. If a 
+ * new partition was created, returns false.
  */
-void simfs_partition_create(char *filename);
+bool simfs_partition_create(char *filename);
 
 /**
  * Saves the partition to the file.
- * @param filename if filename is NULL, writes an error to stderr. If filename
+ * @param filename if filename is NULL, does nothing. If filename
  * is invalid, writes a different error to stderr. If the filename is valid,
  * writes the contents of the partition to the file.
  */
@@ -35,7 +38,7 @@ void *simfs_partition_getBlock(SIMFS_INDEX_TYPE index);
 /**
  * Sets the contents of a block, indexed at position index, to the value of
  * block provided.
- * @param block If block is NULL, then immidiate return.
+ * @param block If block is NULL, does nothing.
  * @param index Index is valid in the range [0-SIMFS_NUMBER_OF_BLOCKS)
  */
 void simfs_partition_setBlock(void *block, SIMFS_INDEX_TYPE index);
