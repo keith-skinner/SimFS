@@ -12,12 +12,12 @@
 #define SIMFS_BITS_IN_BLOCK (SIMFS_BLOCK_SIZE * 8)
 // Describes how many bytes are needed in the bitvector
 #define SIMFS_BYTES_IN_VECTOR \
-  ((SIMFS_NUMBER_OF_BLOCKS / 8) + (SIMFS_NUMBER_OF_BLOCKS % 8 == 0))
+  ( (SIMFS_NUMBER_OF_BLOCKS / 8) + ((SIMFS_NUMBER_OF_BLOCKS % 8) == 0) )
 // Describes how many blocks in the partition are needed for the bitvector
 #define SIMFS_BLOCKS_IN_VECTOR                       \
   ((SIMFS_BYTES_IN_VECTOR / SIMFS_BLOCK_SIZE) +      \
-       (SIMFS_BYTES_IN_VECTOR % SIMFS_BLOCK_SIZE) == \
-   0)
+       ((SIMFS_BYTES_IN_VECTOR % SIMFS_BLOCK_SIZE) == \
+   0))
 // Describes how many blocks are available for use in the partition
 // After excluding those for the superblock, and bitvector
 #define SIMFS_BLOCKS_IN_VOLUME \
@@ -62,7 +62,7 @@ static void createRoot() {
   SIMFS_BLOCK_TYPE block = {0};
   block.type = FOLDER_CONTENT_TYPE;
 
-  SIMFS_FILE_DESCRIPTOR_TYPE *fd = &block.content.fileDescriptor;
+  SIMFS_FILE_DESCRIPTOR_TYPE *fd = &block.content.descriptor;
   strcpy(fd->name, "");
   fd->type = FOLDER_CONTENT_TYPE;
   fd->creationTime = rawTime;
