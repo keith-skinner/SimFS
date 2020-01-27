@@ -37,7 +37,7 @@ SIMFS_BLOCK_TYPE simfs_volume_getBlock(SIMFS_INDEX_TYPE index);
  * @param index Index is valid in the range [0-simfs_volume_numberOfBlocks).
  * @param block A block containing the contents wished to be copied.
  */
-void simfs_volume_setBlock(SIMFS_INDEX_TYPE index, SIMFS_BLOCK_TYPE *block);
+void simfs_volume_setBlock(SIMFS_BLOCK_TYPE *block, SIMFS_INDEX_TYPE index);
 
 /**
  * Finds the first available free block and returns its index.

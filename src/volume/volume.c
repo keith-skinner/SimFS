@@ -79,7 +79,7 @@ static void createRoot() {
   SIMFS_SUPERBLOCK_TYPE *superblock =
       simfs_partition_getBlock(SIMFS_SUPERBLOCK_INDEX);
   superblock->attr.rootNodeIndex = rootIndex;
-  simfs_partition_setBlock(&block, rootIndex);
+  simfs_volume_setBlock(&block, rootIndex);
 }
 
 /**
@@ -141,7 +141,7 @@ SIMFS_BLOCK_TYPE simfs_volume_getBlock(SIMFS_INDEX_TYPE index) {
  * @param index Index is valid in the range [0-simfs_volume_numberOfBlocks).
  * @param block A block containing the contents wished to be copied.
  */
-void simfs_volume_setBlock(SIMFS_INDEX_TYPE index, SIMFS_BLOCK_TYPE *block) {
+void simfs_volume_setBlock(SIMFS_BLOCK_TYPE *block, SIMFS_INDEX_TYPE index) {
   // TODO - Done
   if (index < simfs_volume_numberOfBlocks()) {
     simfs_partition_setBlock(block, SIMFS_BLOCKS_INDEX + index);
