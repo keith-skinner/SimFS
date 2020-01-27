@@ -24,16 +24,11 @@ bool simfs_partition_create(char *filename) {
 
   FILE *file = fopen(filename, "rb");
   if (file == NULL) {
-    printf("Unable to open file: %s\n", filename);
-    exit(-1);
+    memset(simfs_partition, 0, sizeof(simfs_partition));
+    return false;
   }
 
-  size_t count =
-      fread(simfs_partition, SIMFS_BLOCK_SIZE, SIMFS_NUMBER_OF_BLOCKS, file);
-  if (count != SIMFS_NUMBER_OF_BLOCKS) {
-    printf("Partition file read ended abruptly.\n");
-    exit(-1);
-  }
+  fread(simfs_partition, SIMFS_BLOCK_SIZE, SIMFS_NUMBER_OF_BLOCKS, file);
 
   return true;
 }
