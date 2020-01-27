@@ -3,10 +3,14 @@
 #include "../partition/defines.h"
 #include "../partition/partition.h"
 
+// Describes how many bytes are needed in the bitvector
 #define SIMFS_BYTES_IN_VECTOR (SIMFS_NUMBER_OF_BLOCKS / 8)
+// Describes how many blocks in the partition are needed for the bitvector
 #define SIMFS_BLOCKS_IN_VECTOR                  \
   ((SIMFS_BYTES_IN_VECTOR / SIMFS_BLOCK_SIZE) + \
    (SIMFS_BYTES_IN_VECTOR % SIMFS_BLOCK_SIZE))
+// Describes how many blocks are available for use in the partition
+// After excluding those for the superblock, and bitvector
 #define SIMFS_BLOCKS_IN_VOLUME \
   (SIMFS_NUMBER_OF_BLOCKS - 1 - SIMFS_BLOCKS_IN_VECTOR)
 
