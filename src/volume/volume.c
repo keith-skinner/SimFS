@@ -16,19 +16,21 @@
 
 typedef uint8_t simfs_partition_block[SIMFS_BLOCK_SIZE];
 
+typedef uint8_t SIMFS_PARTITION_BLOCK[SIMFS_BLOCK_SIZE];
+
 typedef union simfs_superblock_type {
-  simfs_partition_block dummy;  // this makes the struct exactly one block
+  SIMFS_PARTITION_BLOCK dummy;  // this makes the struct exactly one block
   struct attr {
     SIMFS_INDEX_TYPE
-    rootNodeIndex;  // should point to the first block after the
-                    // last bitvector block
+    rootNodeIndex;  // should point to the first block after the last bitvector
+                    // block
     int numberOfBlocks;
     int blockSize;
   } attr;
 } SIMFS_SUPERBLOCK_TYPE;
 
-typedef simfs_partition_block SIMFS_BITVECTOR_TYPE[SIMFS_BLOCKS_IN_VECTOR];
-typedef simfs_partition_block SIMFS_BLOCKS_TYPE[SIMFS_BLOCKS_IN_VOLUME];
+typedef SIMFS_PARTITION_BLOCK SIMFS_BITVECTOR_TYPE[SIMFS_BLOCKS_IN_VECTOR];
+typedef SIMFS_PARTITION_BLOCK SIMFS_BLOCKS_TYPE[SIMFS_BLOCKS_IN_VOLUME];
 
 typedef struct simfs_volume {
   SIMFS_SUPERBLOCK_TYPE *superblock;
