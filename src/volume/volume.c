@@ -39,7 +39,7 @@ typedef struct simfs_volume {
 } SIMFS_VOLUME;
 
 // Singleton instance of volume
-static SIMFS_VOLUME *simfs_volume;
+static SIMFS_VOLUME simfs_volume;
 
 /**
  * Creates a volume using the file name if provided.
