@@ -66,7 +66,7 @@ void simfs_partition_release() {
 }
 
 static bool validIndex(SIMFS_INDEX_TYPE index) {
-  return (0 < index) && (index < simfs_partition_numberOfBlocks());
+  return (index < simfs_partition_numberOfBlocks());
 }
 
 /**
