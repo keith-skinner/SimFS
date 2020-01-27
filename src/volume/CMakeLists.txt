@@ -6,6 +6,8 @@ add_library(SimfsVolume)
 set_property(TARGET SimfsVolume PROPERTY C_STANDARD 11)
 set_property(TARGET SimfsVolume PROPERTY C_STANDARD_REQUIRED ON)
 
+target_compile_options(SimfsVolume PRIVATE "-Wall" "-Wextra" "-Wpedantic")
+
 target_sources(SimfsVolume
     PRIVATE 
         volume.c
