@@ -8,12 +8,16 @@
 #include "../partition/defines.h"
 #include "../partition/partition.h"
 
+// Describes how many bits are in a block
+#define SIMFS_BITS_IN_BLOCK (SIMFS_BLOCK_SIZE * 8)
 // Describes how many bytes are needed in the bitvector
-#define SIMFS_BYTES_IN_VECTOR (SIMFS_NUMBER_OF_BLOCKS / 8)
+#define SIMFS_BYTES_IN_VECTOR \
+  ((SIMFS_NUMBER_OF_BLOCKS / 8) + (SIMFS_NUMBER_OF_BLOCKS % 8 == 0))
 // Describes how many blocks in the partition are needed for the bitvector
-#define SIMFS_BLOCKS_IN_VECTOR                  \
-  ((SIMFS_BYTES_IN_VECTOR / SIMFS_BLOCK_SIZE) + \
-   (SIMFS_BYTES_IN_VECTOR % SIMFS_BLOCK_SIZE))
+#define SIMFS_BLOCKS_IN_VECTOR                       \
+  ((SIMFS_BYTES_IN_VECTOR / SIMFS_BLOCK_SIZE) +      \
+       (SIMFS_BYTES_IN_VECTOR % SIMFS_BLOCK_SIZE) == \
+   0)
 // Describes how many blocks are available for use in the partition
 // After excluding those for the superblock, and bitvector
 #define SIMFS_BLOCKS_IN_VOLUME \
@@ -28,9 +32,8 @@ typedef uint8_t SIMFS_PARTITION_BLOCK[SIMFS_BLOCK_SIZE];
 typedef union simfs_superblock_type {
   SIMFS_PARTITION_BLOCK dummy;  // this makes the struct exactly one block
   struct attr {
-    SIMFS_INDEX_TYPE
-    rootNodeIndex;  // should point to the first block after the last bitvector
-                    // block
+    // should point to the first block after the last bitvector block
+    SIMFS_INDEX_TYPE rootNodeIndex;
     int numberOfBlocks;
     int blockSize;
   } attr;
@@ -39,14 +42,45 @@ typedef union simfs_superblock_type {
 typedef SIMFS_PARTITION_BLOCK SIMFS_BITVECTOR_TYPE[SIMFS_BLOCKS_IN_VECTOR];
 typedef SIMFS_PARTITION_BLOCK SIMFS_BLOCKS_TYPE[SIMFS_BLOCKS_IN_VOLUME];
 
-typedef struct simfs_volume {
-  SIMFS_SUPERBLOCK_TYPE *superblock;
-  SIMFS_BITVECTOR_TYPE *bitvector;
-  SIMFS_BLOCKS_TYPE *blocks;
-} SIMFS_VOLUME;
+static void createSuperblock() {
+  SIMFS_SUPERBLOCK_TYPE *superblock =
+      simfs_partition_getBlock(SIMFS_SUPERBLOCK_INDEX);
+  superblock->attr.numberOfBlocks = SIMFS_BLOCKS_IN_VOLUME;
+  superblock->attr.blockSize = simfs_partition_sizeOfBlock();
+}
 
-// Singleton instance of volume
-static SIMFS_VOLUME simfs_volume;
+static void createBitvector() {
+  for (int i = 0; i < SIMFS_BLOCKS_IN_VECTOR; ++i)
+    memset(simfs_partition_getBlock(SIMFS_BITVECTOR_INDEX + i), 0,
+           sizeof(SIMFS_PARTITION_BLOCK));
+}
+
+static void createRoot() {
+  time_t rawTime;
+  time(&rawTime);
+
+  SIMFS_BLOCK_TYPE block = {0};
+  block.type = FOLDER_CONTENT_TYPE;
+
+  SIMFS_FILE_DESCRIPTOR_TYPE *fd = &block.content.fileDescriptor;
+  strcpy(fd->name, "");
+  fd->type = FOLDER_CONTENT_TYPE;
+  fd->creationTime = rawTime;
+  fd->lastAccessTime = rawTime;
+  fd->lastModificationTime = rawTime;
+  fd->accessRights = 0666;
+  fd->owner = getuid();
+  fd->group = getgid();
+  fd->size = 0;
+  fd->block_ref = SIMFS_INVALID_INDEX;
+  fd->parent = SIMFS_INVALID_INDEX;
+
+  SIMFS_INDEX_TYPE rootIndex = simfs_volume_allocateBlock();
+  SIMFS_SUPERBLOCK_TYPE *superblock =
+      simfs_partition_getBlock(SIMFS_SUPERBLOCK_INDEX);
+  superblock->attr.rootNodeIndex = rootIndex;
+  simfs_partition_setBlock(&block, rootIndex);
+}
 
 /**
  * Creates a volume using the file name if provided.
@@ -55,7 +89,13 @@ static SIMFS_VOLUME simfs_volume;
  * filename is valid, it reads the contents of the file into the volume.
  */
 void simfs_volume_create(char *filename) {
-  // TODO
+  // TODO - Done
+  bool newPartition = simfs_partition_create(filename);
+  if (!newPartition) {
+    createSuperblock();
+    createBitvector();
+    createRoot();
+  }
 }
 
 /**
@@ -65,7 +105,8 @@ void simfs_volume_create(char *filename) {
  * writes the contents of the volume to the file.
  */
 void simfs_volume_save(char *filename) {
-  // TODO
+  // TODO - Done
+  simfs_partition_save(filename);
 }
 
 /**
@@ -73,7 +114,12 @@ void simfs_volume_save(char *filename) {
  * @note This is mostly for testing purposes and memory cleanup.
  */
 void simfs_volume_release() {
-  // TODO
+  // TODO - Done
+  simfs_partition_release();
+}
+
+static SIMFS_BLOCK_TYPE *getVolumeBlock(SIMFS_INDEX_TYPE index) {
+  return simfs_partition_getBlock(SIMFS_BLOCKS_INDEX + index);
 }
 
 /**
@@ -83,8 +129,11 @@ void simfs_volume_release() {
  * will return a copy of the block at the given index.
  */
 SIMFS_BLOCK_TYPE simfs_volume_getBlock(SIMFS_INDEX_TYPE index) {
-  // TODO
-  return (SIMFS_BLOCK_TYPE){};
+  // TODO - Done
+  if (index < simfs_volume_numberOfBlocks()) {
+    return *getVolumeBlock(index);
+  }
+  return (SIMFS_BLOCK_TYPE){0};
 }
 
 /**
@@ -93,7 +142,25 @@ SIMFS_BLOCK_TYPE simfs_volume_getBlock(SIMFS_INDEX_TYPE index) {
  * @param block A block containing the contents wished to be copied.
  */
 void simfs_volume_setBlock(SIMFS_INDEX_TYPE index, SIMFS_BLOCK_TYPE *block) {
-  // TODO
+  // TODO - Done
+  if (index < simfs_volume_numberOfBlocks()) {
+    simfs_partition_setBlock(block, SIMFS_BLOCKS_INDEX + index);
+  }
+}
+
+static SIMFS_INDEX_TYPE findFreeBlockInByte(uint8_t b) {
+  for (int i = 0; i < 8; ++i)
+    if (((1 << i) & b) == 0) return i;
+  return SIMFS_INVALID_INDEX;
+}
+
+static SIMFS_INDEX_TYPE findFreeBlockInVectorBlock(SIMFS_INDEX_TYPE index) {
+  SIMFS_PARTITION_BLOCK *block = simfs_partition_getBlock(index);
+  for (int i = 0; i < SIMFS_BLOCK_SIZE; ++i) {
+    SIMFS_INDEX_TYPE byte = findFreeBlockInByte((*block)[i]);
+    if (byte != SIMFS_INVALID_INDEX) return 8 * i + byte;
+  }
+  return SIMFS_INVALID_INDEX;
 }
 
 /**
@@ -101,7 +168,13 @@ void simfs_volume_setBlock(SIMFS_INDEX_TYPE index, SIMFS_BLOCK_TYPE *block) {
  * If there are no free blocks, then SIMFS_INVALID_INDEX is returned.
  */
 SIMFS_INDEX_TYPE simfs_volume_allocateBlock() {
-  // TODO
+  // TODO - Done
+  for (int b = 0; b < SIMFS_BLOCKS_IN_VECTOR; ++b) {
+    SIMFS_INDEX_TYPE freeBlock =
+        findFreeBlockInVectorBlock(SIMFS_BITVECTOR_INDEX + b);
+    if (freeBlock != SIMFS_INVALID_INDEX)
+      return SIMFS_BLOCK_SIZE * b + freeBlock;
+  }
   return SIMFS_INVALID_INDEX;
 }
 
@@ -112,29 +185,44 @@ SIMFS_INDEX_TYPE simfs_volume_allocateBlock() {
  * @note if index is invalid, nothing happens.
  */
 void simfs_volume_deallocateBlock(SIMFS_INDEX_TYPE index) {
-  // TODO
+  // TODO - Done
+  if (index < simfs_volume_numberOfBlocks()) return;
+
+  int block = index / SIMFS_BITS_IN_BLOCK;
+  index -= block * SIMFS_BITS_IN_BLOCK;
+  int byte = index / 8;
+  index -= block * 8;
+  int bit = index;
+
+  SIMFS_PARTITION_BLOCK *pblock =
+      simfs_partition_getBlock(SIMFS_BITVECTOR_INDEX + block);
+  (*pblock)[byte] |= 0xFF ^ (1 << bit);
+}
+
+static SIMFS_SUPERBLOCK_TYPE *getSuperblock() {
+  return simfs_partition_getBlock(SIMFS_SUPERBLOCK_INDEX);
 }
 
 /**
  * Returns an index to the root folder's descriptor block.
  */
 SIMFS_INDEX_TYPE simfs_volume_getRootNodeIndex() {
-  // TODO
-  return SIMFS_INVALID_INDEX;
+  // TODO - Done
+  return getSuperblock()->attr.rootNodeIndex;
 }
 
 /**
  * Returns the number of blocks in the volume
  */
 int simfs_volume_numberOfBlocks() {
-  // TODO
-  return -1;
+  // TODO - Done
+  return getSuperblock()->attr.numberOfBlocks;
 }
 
 /**
  * Returns the size of one of the blocks.
  */
 int simfs_volume_sizeOfBlock() {
-  // TODO
-  return -1;
+  // TODO - Done
+  return getSuperblock()->attr.blockSize;
 }
