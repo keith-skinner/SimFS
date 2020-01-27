@@ -12,20 +12,19 @@
 #define SIMFS_BITS_IN_BLOCK (SIMFS_BLOCK_SIZE * 8)
 // Describes how many bytes are needed in the bitvector
 #define SIMFS_BYTES_IN_VECTOR \
-  ( (SIMFS_NUMBER_OF_BLOCKS / 8) + ((SIMFS_NUMBER_OF_BLOCKS % 8) == 0) )
+  ((SIMFS_NUMBER_OF_BLOCKS / 8) + ((SIMFS_NUMBER_OF_BLOCKS % 8) == 0))
 // Describes how many blocks in the partition are needed for the bitvector
-#define SIMFS_BLOCKS_IN_VECTOR                       \
-  ((SIMFS_BYTES_IN_VECTOR / SIMFS_BLOCK_SIZE) +      \
-       ((SIMFS_BYTES_IN_VECTOR % SIMFS_BLOCK_SIZE) == \
-   0))
-// Describes how many blocks are available for use in the partition
-// After excluding those for the superblock, and bitvector
-#define SIMFS_BLOCKS_IN_VOLUME \
-  (SIMFS_NUMBER_OF_BLOCKS - 1 - SIMFS_BLOCKS_IN_VECTOR)
+#define SIMFS_BLOCKS_IN_VECTOR                  \
+  ((SIMFS_BYTES_IN_VECTOR / SIMFS_BLOCK_SIZE) + \
+   ((SIMFS_BYTES_IN_VECTOR % SIMFS_BLOCK_SIZE) == 0))
 
 #define SIMFS_SUPERBLOCK_INDEX 0
 #define SIMFS_BITVECTOR_INDEX 1
 #define SIMFS_BLOCKS_INDEX (SIMFS_BITVECTOR_INDEX + SIMFS_BLOCKS_IN_VECTOR)
+
+// Describes how many blocks are available for use in the partition
+// After excluding those for the superblock, and bitvector
+#define SIMFS_BLOCKS_IN_VOLUME (SIMFS_NUMBER_OF_BLOCKS - SIMFS_BLOCKS_INDEX)
 
 typedef uint8_t SIMFS_PARTITION_BLOCK[SIMFS_BLOCK_SIZE];
 
