@@ -46,7 +46,8 @@ void simfs_volume_setBlock(SIMFS_INDEX_TYPE index, SIMFS_BLOCK_TYPE *block);
 SIMFS_INDEX_TYPE simfs_volume_allocateBlock();
 
 /**
- * Releases the block in the volume indicated by index to be allowed to be allocated again.
+ * Releases the block in the volume indicated by index to be allowed to be
+ * allocated again.
  * @param index Index is valid in the range [0-simfs_volume_numberOfBlocks).
  * @note if index is invalid, nothing happens.
  */

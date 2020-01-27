@@ -27,12 +27,14 @@ void simfs_partition_release();
 /**
  * Returns the contents of the block indicated by index.
  * @param index Index is valid in the range [0-SIMFS_NUMBER_OF_BLOCKS).
- * @return If index is invalid, NULL is returned. If index is valid, will return a pointer to a valid block.
+ * @return If index is invalid, NULL is returned. If index is valid, will return
+ * a pointer to a valid block.
  */
 void *simfs_partition_getBlock(SIMFS_INDEX_TYPE index);
 
 /**
- * Sets the contents of a block, indexed at position index, to the value of block provided.
+ * Sets the contents of a block, indexed at position index, to the value of
+ * block provided.
  * @param block If block is NULL, then immidiate return.
  * @param index Index is valid in the range [0-SIMFS_NUMBER_OF_BLOCKS)
  */

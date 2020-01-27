@@ -16,8 +16,10 @@
 #include "content.h"
 #include "descriptor.h"
 
-
-#define SIMFS_CONTENT_SIZE (SIMFS_BLOCK_SIZE - sizeof(SIMFS_CONTENT_TYPE) - 4) //The -4 is a hidden int only visible by the compiler (it has to do with a union's active member)
+#define SIMFS_CONTENT_SIZE                         \
+  (SIMFS_BLOCK_SIZE - sizeof(SIMFS_CONTENT_TYPE) - \
+   4)  // The -4 is a hidden int only visible by the compiler (it has to do with
+       // a union's active member)
 #define SIMFS_DATA_SIZE (SIMFS_CONTENT_SIZE / sizeof(unsigned char))
 #define SIMFS_INDEX_SIZE (SIMFS_CONTENT_SIZE / sizeof(SIMFS_INDEX_TYPE))
 
