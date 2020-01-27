@@ -2,7 +2,7 @@
 
 At the end of this step your task is to:
 - run the application with a valid filename that does not exist
-  - `> step1.test simfs-partition.txt`
+  - `> step1 simfs-partition.txt`
     - If you've ran this test before, delete the file and run it again or choose a different file name.
   - This will create the `simfs_partition`,
   - format the `simfs_partition` into the `simfs_volume`,
@@ -10,7 +10,7 @@ At the end of this step your task is to:
     - Description of what this should look like below!
   - and save the contents of the `simfs_volume` to a file.
 - rerun the application with the same filename
-  - `> step1.test simfs-partition.txt`
+  - `> step1 simfs-partition.txt`
   - thus, displaying the contents again, and resaving to the file.
     - This proves the contents of `simfs_volume` will persist through multiple runs just like a real volume.
 
