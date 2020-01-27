@@ -14,10 +14,10 @@ At the end of this step your task is to:
   - thus, displaying the contents again, and resaving to the file.
     - This proves the contents of `simfs_volume` will persist through multiple runs just like a real volume.
 
-> "A block, a contiguous number of bytes, is the minimum unit of storage that is read from and written to a disk by a disk driver...Modern hard disk drives, such as Serial attached SCSI (SAS) and Serial ATA (SATA) drives, appear at their interfaces as a contiguous set of fixed-size blocks; for many years 512 bytes long but beginning in 2009 and accelerating through 2011, all major hard disk drive manufacturers began releasing hard disk drive platforms using the Advanced Format of 4096 byte logical blocks."
+> "A block, a contiguous number of bytes, is the minimum unit of storage that is read from and written to a disk by a disk driver ... Modern hard disk drives, such as Serial attached SCSI (SAS) and Serial ATA (SATA) drives, appear at their interfaces as a contiguous set of fixed-size blocks; for many years 512 bytes long but beginning in 2009 and accelerating through 2011, all major hard disk drive manufacturers began releasing hard disk drive platforms using the Advanced Format of 4096 byte logical blocks."  
 > https://en.wikipedia.org/wiki/Disk_formatting
 
-> "High-level formatting creates the file system format within a disk partition or a logical volume. This formatting includes the data structures used by the OS to identify the logical drive or partition's contents. This may occur during operating system installation, or when adding a new disk. Disk and distributed file system may specify an optional boot block, and/or various volume and directory information for the operating system."
+> "High-level formatting creates the file system format within a disk partition or a logical volume. This formatting includes the data structures used by the OS to identify the logical drive or partition's contents. This may occur during operating system installation, or when adding a new disk. Disk and distributed file system may specify an optional boot block, and/or various volume and directory information for the operating system."  
 > https://en.wikipedia.org/wiki/Disk_formatting
 
 
@@ -58,6 +58,49 @@ The ability to resuse the same space in memory for multiple types (or arrays of 
 The only files allowed to use `partition.h` should be `volume.h`.
 `partition.h` is a code example of a physical drive and `volume.h` is the logical abstraction of that physical thing so we can use it in code. This makes the volume a wrapper around the partition in our case.
 
-# TODO: KEITH: Add example output
+## Example Output
+
+```
+
+Testing Step 1
+
+
+Superblock Information
+  Root Node Index:        0
+  Number of Blocks:       4091
+  Size of Blocks:         128
+
+Root Node Information
+  Block Type:             FOLDER_CONTENT_TYPE
+  Name:                   ""
+  Type:                   FOLDER_CONTENT_TYPE
+  Creation Time:          Sun Jan 26 22:35:17 2020
+  Last Access Time:       Sun Jan 26 22:35:17 2020
+  Last Modification Time: Sun Jan 26 22:35:17 2020
+  Owner:                  7
+  Group:                  5
+  Size:                   0
+  Block Reference:        65535
+  Parent Reference:       65535
+
+Superblock Information
+  Root Node Index:        0
+  Number of Blocks:       4091
+  Size of Blocks:         128
+
+Root Node Information
+  Block Type:             FOLDER_CONTENT_TYPE
+  Name:                   ""
+  Type:                   FOLDER_CONTENT_TYPE
+  Creation Time:          Sun Jan 26 22:35:17 2020
+  Last Access Time:       Sun Jan 26 22:35:17 2020
+  Last Modification Time: Sun Jan 26 22:35:17 2020
+  Owner:                  7
+  Group:                  5
+  Size:                   0
+  Block Reference:        65535
+  Parent Reference:       65535
+
+```
 
 [bitwise_opers]: https://en.cppreference.com/w/c/language/operator_arithmetic
