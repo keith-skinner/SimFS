@@ -31,7 +31,7 @@ typedef struct simfs_block_type {
   SIMFS_CONTENT_TYPE type;
   union content_tag {
     // meta information for folders and files
-    SIMFS_FILE_DESCRIPTOR_TYPE fileDescriptor;
+    SIMFS_FILE_DESCRIPTOR_TYPE descriptor;
     // array of raw data for files
     SIMFS_DATA_TYPE data;
     // array of indices to other blocks.
