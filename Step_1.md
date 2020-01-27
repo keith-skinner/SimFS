@@ -3,12 +3,12 @@
 At the end of this step your task is to:
 - run the application with a valid filename that does not exist
   - `> step1.test simfs-partition.txt`
-    - If you've ran this test before, delete the file and run it again.
-  - this will create the `simfs_partition`,
+    - If you've ran this test before, delete the file and run it again or choose a different file name.
+  - This will create the `simfs_partition`,
   - format the `simfs_partition` into the `simfs_volume`,
-  - display the contents of the superblock as well as the root directory.
+  - display the contents of the superblock as well as the root directory,
     - Description of what this should look like below!
-  - save the contents of the `simfs_volume` to a file.
+  - and save the contents of the `simfs_volume` to a file.
 - rerun the application with the same filename
   - `> step1.test simfs-partition.txt`
   - thus, displaying the contents again, and resaving to the file.

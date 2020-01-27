@@ -4,7 +4,7 @@
 #include <time.h>
 #include "../../partition/index.h"
 #include "content.h"
-#include "sys/types.h"  //TODO: KEITH: Remove this later.
+#include "../../sys/types.h"  //TODO: KEITH: Remove this later.
 
 // The name length has to fit within padding and SIMFS_BLOCK_SIZE
 #ifdef SIMFS_LIGHT
