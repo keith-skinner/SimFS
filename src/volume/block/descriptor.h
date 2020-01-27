@@ -27,6 +27,7 @@ typedef struct simfs_file_descriptor_type {
   time_t lastModificationTime;  // last modification
   mode_t accessRights;          // access rights for the file
   uid_t owner;                  // owner ID
+  gid_t group;                  // group ID
   SIMFS_SIZE_TYPE size;         // capacity limited for this project to 2^16
   SIMFS_INDEX_TYPE block_ref;   // reference to the data or index block
   SIMFS_INDEX_TYPE parent;      // reference to the parent folder
