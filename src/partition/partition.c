@@ -1,10 +1,10 @@
 #include "partition.h"
-#include <stdint.h>
-#include <stdio.h>
 #include <memory.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "defines.h"
-
 
 typedef uint8_t SIMFS_PARTITION_BLOCK[SIMFS_BLOCK_SIZE];
 static SIMFS_PARTITION_BLOCK simfs_partition[SIMFS_NUMBER_OF_BLOCKS];
@@ -22,18 +22,19 @@ bool simfs_partition_create(char *filename) {
     return false;
   }
 
-  FILE * file = fopen(filename, "rb");
+  FILE *file = fopen(filename, "rb");
   if (file == NULL) {
-    printf("Unable to open file: %s\n");
+    printf("Unable to open file: %s\n", filename);
     exit(-1);
   }
 
-  size_t count = fread(simfs_partition, SIMFS_BLOCK_SIZE, SIMFS_NUMBER_OF_BLOCKS, file);
+  size_t count =
+      fread(simfs_partition, SIMFS_BLOCK_SIZE, SIMFS_NUMBER_OF_BLOCKS, file);
   if (count != SIMFS_NUMBER_OF_BLOCKS) {
     printf("Partition file read ended abruptly.\n");
     exit(-1);
   }
-  
+
   return true;
 }
 
@@ -45,16 +46,16 @@ bool simfs_partition_create(char *filename) {
  */
 void simfs_partition_save(char *filename) {
   // TODO - Done
-  if (filename == NULL)
-    return;
-  
-  FILE * file = fopen(filename, "wb");
+  if (filename == NULL) return;
+
+  FILE *file = fopen(filename, "wb");
   if (file == NULL) {
-    printf("Unable to open file: %s\n");
+    printf("Unable to open file: %s\n", filename);
     exit(-2);
   }
 
-  size_t count = fwrite(simfs_partition, SIMFS_BLOCK_SIZE, SIMFS_NUMBER_OF_BLOCKS, file);
+  size_t count =
+      fwrite(simfs_partition, SIMFS_BLOCK_SIZE, SIMFS_NUMBER_OF_BLOCKS, file);
   if (count != SIMFS_NUMBER_OF_BLOCKS) {
     printf("Error writing partition to file.\n");
   }
@@ -69,8 +70,7 @@ void simfs_partition_release() {
   memset(simfs_partition, 0, sizeof(simfs_partition));
 }
 
-static bool validIndex(SIMFS_INDEX_TYPE index)
-{
+static bool validIndex(SIMFS_INDEX_TYPE index) {
   return (0 < index) && (index < simfs_partition_numberOfBlocks());
 }
 
@@ -82,8 +82,7 @@ static bool validIndex(SIMFS_INDEX_TYPE index)
  */
 void *simfs_partition_getBlock(SIMFS_INDEX_TYPE index) {
   // TODO - Done
-  if (validIndex(index))
-    return simfs_partition[index];
+  if (validIndex(index)) return simfs_partition[index];
   return NULL;
 }
 
