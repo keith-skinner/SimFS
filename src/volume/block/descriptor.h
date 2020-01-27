@@ -7,11 +7,8 @@
 #include "../../sys/types.h"  //TODO: KEITH: Remove this later.  
 
 // The name length has to fit within padding and SIMFS_BLOCK_SIZE
-#ifdef SIMFS_LIGHT
-#define SIMFS_MAX_NAME_LENGTH 10
-#else  // SIMFS_LIGHT
-#define SIMFS_MAX_NAME_LENGTH 74
-#endif  // SIMFS_LIGHT
+
+#define SIMFS_MAX_NAME_LENGTH 68
 
 // Describes the size of a file or folder.
 typedef unsigned short SIMFS_SIZE_TYPE;
