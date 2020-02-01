@@ -1,17 +1,17 @@
 # **Step 1** *Creating the Volume*
 
-At the end of this step your task is to:
-- run the application with a valid filename that does not exist
-  - `> step1 simfs-partition.txt`
-    - If you've ran this test before, delete the file and run it again or choose a different file name.
-  - This will create the `simfs_partition`,
-  - format the `simfs_partition` into the `simfs_volume`,
-  - display the contents of the superblock as well as the root directory,
-    - Description of what this should look like below!
-  - and save the contents of the `simfs_volume` to a file.
-- rerun the application with the same filename
-  - `> step1 simfs-partition.txt`
-  - thus, displaying the contents again, and resaving to the file.
+At the end of this step your task is to run the application with a valid filename that does not exist
+
+```
+> ./step1 hello.txt
+```
+    
+If you've ran this test before, delete the file and run it again or choose a different file name.
+
+The application will call `simfs_volume_create`, with `NULL`. This will create a new `simfs_partition` and format it.
+Then, display the contents of the superblock, as well as the root directory, (description of what this should look like below).
+Call `simfs_volume_save`, to save the volume to the file called `argv[1]` (yes you will need to start the program with arguments).
+Finally call `simfs_volume_create` again, this time with the 
     - This proves the contents of `simfs_volume` will persist through multiple runs just like a real volume.
 
 > "A block, a contiguous number of bytes, is the minimum unit of storage that is read from and written to a disk by a disk driver ... Modern hard disk drives, such as Serial attached SCSI (SAS) and Serial ATA (SATA) drives, appear at their interfaces as a contiguous set of fixed-size blocks; for many years 512 bytes long but beginning in 2009 and accelerating through 2011, all major hard disk drive manufacturers began releasing hard disk drive platforms using the Advanced Format of 4096 byte logical blocks."  
@@ -61,10 +61,10 @@ The only files allowed to use `partition.h` should be `volume.h`.
 ## Example Output
 
 ```
+PS C:\Users\User\SimFS\build> .\step1.exe hello.txt
 
 Testing Step 1
 
-
 Superblock Information
   Root Node Index:        0
   Number of Blocks:       4091
@@ -74,9 +74,9 @@ Root Node Information
   Block Type:             FOLDER_CONTENT_TYPE
   Name:                   ""
   Type:                   FOLDER_CONTENT_TYPE
-  Creation Time:          Sun Jan 26 22:35:17 2020
-  Last Access Time:       Sun Jan 26 22:35:17 2020
-  Last Modification Time: Sun Jan 26 22:35:17 2020
+  Creation Time:          Tue Jan 28 02:21:03 2020
+  Last Access Time:       Tue Jan 28 02:21:03 2020
+  Last Modification Time: Tue Jan 28 02:21:03 2020
   Owner:                  7
   Group:                  5
   Size:                   0
@@ -92,15 +92,16 @@ Root Node Information
   Block Type:             FOLDER_CONTENT_TYPE
   Name:                   ""
   Type:                   FOLDER_CONTENT_TYPE
-  Creation Time:          Sun Jan 26 22:35:17 2020
-  Last Access Time:       Sun Jan 26 22:35:17 2020
-  Last Modification Time: Sun Jan 26 22:35:17 2020
+  Creation Time:          Tue Jan 28 02:21:03 2020
+  Last Access Time:       Tue Jan 28 02:21:03 2020
+  Last Modification Time: Tue Jan 28 02:21:03 2020
   Owner:                  7
   Group:                  5
   Size:                   0
   Block Reference:        65535
   Parent Reference:       65535
 
+PS C:\Users\User\SimFS\build>
 ```
 
 [bitwise_opers]: https://en.cppreference.com/w/c/language/operator_arithmetic

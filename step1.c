@@ -1,4 +1,3 @@
-#define SIMFS_LIGHT 1
 #include <stdio.h>
 #include <time.h>
 #include "src/volume/block/descriptor.h"
