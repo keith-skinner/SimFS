@@ -26,8 +26,6 @@
 // After excluding those for the superblock, and bitvector
 #define SIMFS_BLOCKS_IN_VOLUME (SIMFS_NUMBER_OF_BLOCKS - SIMFS_BLOCKS_INDEX)
 
-typedef uint8_t SIMFS_PARTITION_BLOCK[SIMFS_BLOCK_SIZE];
-
 typedef union simfs_superblock_type {
   SIMFS_PARTITION_BLOCK dummy;  // this makes the struct exactly one block
   struct attr {

@@ -1,14 +1,17 @@
 #pragma once
 
-#include <stdbool.h>
+#include "defines.h"
 #include "index.h"
+#include <stdbool.h>
+
+typedef uint8_t SIMFS_PARTITION_BLOCK[SIMFS_BLOCK_SIZE];
 
 /**
  * Creates a partition using the file name if provided.
  * @param filename if filename is NULL, creates a new partition. If the
  * filename is invalid, writes an error to stderr and calls exit. If the
  * filename is valid, it reads the contents of the file into the partition.
- * @return if the partition used the file to be created returns true. If a 
+ * @return if the partition used the file to be created returns true. If a
  * new partition was created, returns false.
  */
 bool simfs_partition_create(char *filename);

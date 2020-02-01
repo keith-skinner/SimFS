@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "defines.h"
 
-typedef uint8_t SIMFS_PARTITION_BLOCK[SIMFS_BLOCK_SIZE];
+
 static SIMFS_PARTITION_BLOCK simfs_partition[SIMFS_NUMBER_OF_BLOCKS];
 
 /**
@@ -29,7 +29,7 @@ bool simfs_partition_create(char *filename) {
   }
 
   fread(simfs_partition, SIMFS_BLOCK_SIZE, SIMFS_NUMBER_OF_BLOCKS, file);
-
+  fclose(file);
   return true;
 }
 
