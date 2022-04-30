@@ -15,10 +15,10 @@ At the end of this step your task is to:
     - This proves the contents of `simfs_volume` will persist through multiple runs just like a real volume.
 
 > "A block, a contiguous number of bytes, is the minimum unit of storage that is read from and written to a disk by a disk driver...Modern hard disk drives, such as Serial attached SCSI (SAS) and Serial ATA (SATA) drives, appear at their interfaces as a contiguous set of fixed-size blocks; for many years 512 bytes long but beginning in 2009 and accelerating through 2011, all major hard disk drive manufacturers began releasing hard disk drive platforms using the Advanced Format of 4096 byte logical blocks."  
-> - https://en.wikipedia.org/wiki/Disk_formatting
+> -https://en.wikipedia.org/wiki/Disk_formatting
 
 > "High-level formatting creates the file system format within a disk partition or a logical volume. This formatting includes the data structures used by the OS to identify the logical drive or partition's contents. This may occur during operating system installation, or when adding a new disk. Disk and distributed file system may specify an optional boot block, and/or various volume and directory information for the operating system."  
-> - https://en.wikipedia.org/wiki/Disk_formatting
+> -https://en.wikipedia.org/wiki/Disk_formatting
 
 
 ## The Partition
