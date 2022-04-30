@@ -5,7 +5,7 @@ Simulated File System Final Project for Operating Systems
 
 ### Introduction
 
-In the next several classes, you will be working on implementing an "in-memory" file system simulator. You will then integrate it with [FUSE][fuse_repo], to allow users to interact with your simulated file system (SimFS). There will be no distinction between interacting with the simulated file system and any other file system available to the users in the operating system. 
+In the next several classes, you will be working on implementing an "in-memory" file system simulator. You will then integrate it with [FUSE][fuse_repo], to allow users to interact with your simulated file system (SimFS). There will be no distinction between interacting with the simulated file system and any other file system available to the users of the operating system. 
 
 You will be able to explore the simulated file system; create and delete files and folders; inspect the folders and files; open and close files; read and write to files.
 
@@ -20,7 +20,7 @@ This assignment can take large amounts of RAM to use. If you are using a virtual
 
 #### Project Structure
 
-This project has multiple libraries offering different layers of abstraction. These libraries have clear lines of who uses who and therefore you are not allowed to break those lines. This is intended to preserve some kind of modularity in your code and thus reusability. Remebering that correctness comes first, but clarity, not speed, comes second on your priority list means that there should be no reason beyond laziness to break modularity.
+This project has multiple libraries offering different layers of abstraction. These libraries have clear lines of who uses who and therefore you are not allowed to break those lines. This is intended to preserve some kind of modularity in your code and thus, reusability. Remebering that correctness comes first and clarity, not speed, comes second on your priority list. There should be no reason to break modularity.
 
 # TODO: KEITH: IMAGE HERE SHOWING LAYERS OF ABSTRACTION
 
