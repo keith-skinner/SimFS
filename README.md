@@ -13,8 +13,6 @@ This repository contains the declarations for the data structures and functions 
 
 This project is large and will take you a significant amount of time to complete. ***Do not underestimate this assignment.***
 
-This assignment can take large amounts of RAM to use. If you are using a virtual machine, and in general while testing, it may be a good idea to define SIMFS_LITE
-
 - [X] Step 0 - An example
 - [ ] [Step 1 - Creating the Volume](./Step_1.md)
 
